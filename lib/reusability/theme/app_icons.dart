@@ -1,0 +1,35 @@
+class AppIcons {
+  static String base = 'assets/icons/';
+  static String about = '${base}about.png';
+  static String alarm = '${base}alarm.png';
+  static String briefcase = '${base}briefcase.png';
+  static String calendar = '${base}calendar.png';
+  static String call = '${base}call.png';
+  static String delete = '${base}delete.png';
+  static String edit = '${base}edit.png';
+  static String faq = '${base}faq.png';
+  static String headphone = '${base}headphone.png';
+  static String inbox = '${base}inbox.png';
+  static String info = '${base}info.png';
+  static String location = '${base}location.png';
+  static String logout = '${base}logout.png';
+  static String menu = '${base}menu.png';
+  static String message = '${base}message.png';
+  static String money = '${base}money.png';
+  static String moneyReceive = '${base}money_receive.png';
+  static String moneySend = '${base}money_send.png';
+  static String note = '${base}note.png';
+  static String notification = '${base}notification.png';
+  static String person = '${base}person.png';
+  static String privacy = '${base}privacy.png';
+  static String ride = '${base}ride.png';
+  static String safety = '${base}safety.png';
+  static String support = '${base}support.png';
+  static String terms = '${base}terms.png';
+  static String wallet = '${base}wallet.png';
+  static String walletAdd = '${base}wallet_add.png';
+  static String local = '${base}local.png';
+  static String intercity = '${base}intercity.png';
+  static String star = '${base}star.png';
+  static String currentPosition = '${base}current_position.png';
+}
