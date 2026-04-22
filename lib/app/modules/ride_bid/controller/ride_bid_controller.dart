@@ -24,6 +24,13 @@ class RideBidController extends GetxController {
     getRideStatus();
   }
 
+  @override
+  void onClose() {
+    SocketService().socket?.off("user-ride-status-event");
+    SocketService().socket?.off("place-bid-event");
+    super.onClose();
+  }
+
   cancelRide({required bool goBack, bool isAccepted = false}) async {
     if(isAccepted) {
       SocketService().socket?.off("place-bid-event");
@@ -44,13 +51,13 @@ class RideBidController extends GetxController {
   }
 
   getRideStatus() {
-    SocketService().socket?.on("user-ride-status-event", (data) {
+    SocketService().listenEvent("user-ride-status-event", (data) {
       if(data != null && data['status'] == 'accept_ride') {
         cancelRide(goBack: true, isAccepted: true);
       }
     },);
 
-    SocketService().socket?.on("place-bid-event", (data) {
+    SocketService().listenEvent("place-bid-event", (data) {
       var id = data['bid_id'];
       var time = DateTime.now();
       data.addAll({"time": time});

@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cabifyit/app/data/network/network.dart';
 import 'package:cabifyit/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:cabifyit/reusability/utils/utils.dart';
 import 'package:get/get.dart';
@@ -14,6 +13,12 @@ class SocketService {
   IO.Socket? socket;
 
   void connect() {
+    final currentSocket = socket;
+    if (currentSocket != null &&
+        (currentSocket.connected || currentSocket.disconnected == false)) {
+      return;
+    }
+
     var url = 'https://backend.cabifyit.com';
     socket = IO.io(
       url,
@@ -35,7 +40,6 @@ class SocketService {
 
     socket!.onConnect((_) {
       print("✅ Socket Connected: ${socket!.id}");
-      socket!.off("user-ride-status-event");
       Get.find<DashBoardController>().getSocketEvent();
     });
 
@@ -53,8 +57,10 @@ class SocketService {
   }
 
   void disconnect() {
+    if (socket == null) return;
     socket?.disconnect();
     socket?.dispose();
+    socket = null;
   }
 
   void emitEvent(String event, dynamic data) {

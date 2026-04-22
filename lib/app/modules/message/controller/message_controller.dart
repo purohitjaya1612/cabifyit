@@ -32,6 +32,12 @@ class MessageController extends GetxController {
     }
   }
 
+  @override
+  void onClose() {
+    SocketService().socket?.off("user-message-event");
+    super.onClose();
+  }
+
   getMessage() async {
     isLoading.value = true;
     var result = await messageService.getMessage(params: "?ride_id=$rideId");
@@ -61,7 +67,7 @@ class MessageController extends GetxController {
   }
 
   getNewMessage() {
-    SocketService().socket?.on("user-message-event", (data) {
+    SocketService().listenEvent("user-message-event", (data) {
       if((data['ride_id'] ?? "").toString() == rideId) {
         var message = MessageData.fromJson(data);
         messages.insert(0, message);

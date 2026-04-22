@@ -144,7 +144,7 @@ class DriverLocationController extends GetxController {
       });
     });
 
-    SocketService().socket?.on("get-driver-location-on-user", (data) {
+    SocketService().listenEvent("get-driver-location-on-user", (data) {
       if(data['data'] != null && data['data']['data'] != null) {
         var latitude = double.tryParse((data['data']['data']['latitude'] ?? "0").toString()) ?? 0.00;
         var longitude = double.tryParse((data['data']['data']['longitude'] ?? "0").toString()) ?? 0.00;

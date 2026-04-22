@@ -261,6 +261,14 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
   }
 
   @override
+  void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
+    SocketService().socket?.off("user-ride-status-event");
+    disconnectSocket();
+    super.onClose();
+  }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
@@ -336,7 +344,7 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
   }
   
   getSocketEvent() {
-    SocketService().socket?.on("user-ride-status-event", (data) {
+    SocketService().listenEvent("user-ride-status-event", (data) {
       print("Ride Updated");
       if(currentBooking != null) {
         if(data['status'] == "ride_started") {
