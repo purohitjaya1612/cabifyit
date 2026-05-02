@@ -130,16 +130,16 @@ class RideBidView extends GetView<RideBidController> {
                                         ]
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Model", style: AppTextStyle.size12RegularAppBlackText.copyWith(color: AppColors.textGrey)),
-                                          SizedBox(height: Get.height * 0.01),
-                                          Text(bid['vehicle_name'] ?? "", style: AppTextStyle.size16MediumAppBlackText),
-                                        ]
-                                    ),
-                                  )
+                                  // Expanded(
+                                  //   child: Column(
+                                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                                  //       children: [
+                                  //         Text("Model", style: AppTextStyle.size12RegularAppBlackText.copyWith(color: AppColors.textGrey)),
+                                  //         SizedBox(height: Get.height * 0.01),
+                                  //         Text(bid['vehicle_name'] ?? "", style: AppTextStyle.size16MediumAppBlackText),
+                                  //       ]
+                                  //   ),
+                                  // )
                                 ],
                               ),
                               SizedBox(height: 15),

@@ -26,7 +26,6 @@ class RideBidController extends GetxController {
 
   @override
   void onClose() {
-    SocketService().socket?.off("user-ride-status-event");
     SocketService().socket?.off("place-bid-event");
     super.onClose();
   }

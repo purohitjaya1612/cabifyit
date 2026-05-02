@@ -355,6 +355,10 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
           currentBooking?.bookingStatus = "arrived";
         } else if(data['status'] == "cancel_confirm_ride") {
           currentBooking = null;
+        } else if(data['status'] == "cancelled") {
+          currentBooking = null;
+        } else if(data['status'] == 'completed') {
+          currentBooking = null;
         }
         update();
       }
