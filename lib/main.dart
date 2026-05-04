@@ -16,12 +16,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp(
-      name: Platform.isIOS?"Cabifyit":null,
-      options: FirebaseOptions(
-          apiKey: "AIzaSyCe-nr1KAz5rFtGM9ulCF7dBWFzqHr1lqc",
-          appId: Platform.isIOS?"1:202615900430:ios:f8cb8916150cab69be2f5f":"1:389652071222:android:1c4c9ba93e33a4565e2997",
-          messagingSenderId: "202615900430",
-          projectId: "cabifyit")
+      // name: Platform.isIOS?"Cabifyit":null,
+      // options: FirebaseOptions(
+      //     apiKey: "AIzaSyCe-nr1KAz5rFtGM9ulCF7dBWFzqHr1lqc",
+      //     appId: Platform.isIOS?"1:202615900430:ios:f8cb8916150cab69be2f5f":"1:389652071222:android:1c4c9ba93e33a4565e2997",
+      //     messagingSenderId: "202615900430",
+      //     projectId: "cabifyit")
   );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(

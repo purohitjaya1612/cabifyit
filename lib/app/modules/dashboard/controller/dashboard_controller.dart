@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cabifyit/app/data/model/current_ride_model.dart';
 import 'package:cabifyit/app/data/model/vehicle_list_model.dart';
 import 'package:cabifyit/app/data/services/auth_service.dart';
@@ -6,6 +9,7 @@ import 'package:cabifyit/app/data/services/general_service.dart';
 import 'package:cabifyit/app/data/services/profile_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:geolocator/geolocator.dart';
@@ -283,6 +287,7 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
   storeToken() async {
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
     await firebaseMessaging.requestPermission(alert: true, badge: true, sound: true);
+    getNotification();
     String firebaseToken = (await firebaseMessaging.getToken()) ?? "";
     String udId = await FlutterUdid.udid;
     var body = {
@@ -291,6 +296,66 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
     };
 
     await GeneralService().storeToken(body: body);
+  }
+
+  Future<void> getNotification() async {
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+    /// Create an Android Notification Channel.
+    /// We use this channel in the `AndroidManifest.xml` file to override the
+    /// default FCM channel to enable heads up notifications.
+    var channel = const AndroidNotificationChannel(
+      'Cabifyit', // id
+      'High Importance Notifications', // title// description
+      importance: Importance.high,
+    );
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    var androidInit =
+    const AndroidInitializationSettings('@mipmap/launcher_icon'); //for logo
+    var iosInit = const DarwinInitializationSettings();
+    var initSetting = InitializationSettings(android: androidInit, iOS: iosInit);
+    flutterLocalNotificationsPlugin.initialize(initSetting);
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      log('A new getInitialMessage event was published!');
+      if (message != null) {
+      }
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log('A new onMessage event was published!');
+      RemoteNotification? notification = message.notification;
+
+      if (Platform.isAndroid) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification!.title,
+          notification.body,
+          NotificationDetails(
+            iOS: const DarwinNotificationDetails(),
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              icon: '@mipmap/launcher_icon',
+            ),
+          ),
+          payload: "${notification.title}",
+        );
+      }
+
+      if (notification != null) {
+        var title = (notification.title ?? "").toLowerCase();
+        log("Driver App Log : $title");
+      }
+
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      log('A new onMessageOpenedApp event was published!');
+      log(message.notification!.title!);
+    });
   }
 
   getCurrentRide() async {

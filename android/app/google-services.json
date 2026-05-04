@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "202615900430",
+    "project_id": "cabifyit",
+    "storage_bucket": "cabifyit.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202615900430:android:408505627341042bbe2f5f",
+        "android_client_info": {
+          "package_name": "com.cabifyit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTw6WV9A4dtSFqKKGZSsx5rmlWoEExZWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202615900430:android:3dba591994e902bdbe2f5f",
+        "android_client_info": {
+          "package_name": "com.cabifyit.driver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTw6WV9A4dtSFqKKGZSsx5rmlWoEExZWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
