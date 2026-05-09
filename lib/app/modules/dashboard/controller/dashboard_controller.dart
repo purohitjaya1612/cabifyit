@@ -52,7 +52,7 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
   var dropLong = "".obs;
   var pickupPointId = "".obs;
   var dropPointId = "".obs;
-
+  var viaPoints = [];
   var fareKm = ''.obs;
   var farePrice = ''.obs;
 
@@ -172,16 +172,22 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
     if (vehicles.isNotEmpty && pickupLat.value.isNotEmpty && pickupLong.value.isNotEmpty &&
         dropLat.value.isNotEmpty && dropLong.value.isNotEmpty && selectedRide.value != -1) {
       var body = {
-        "pickup_point": {
-          "latitude": pickupLat.value,
-          "longitude": pickupLong.value,
-        },
-        "destination_point": {
-          "latitude": dropLat.value,
-          "longitude": dropLong.value,
-        },
-        "vehicle_id": vehicles[selectedRide.value].id
+        "pickup_point[latitude]": pickupLat.value,
+        "pickup_point[longitude]": pickupLong.value,
+        "destination_point[latitude]": dropLat.value,
+        "destination_point[longitude]": dropLong.value,
+        "vehicle_id": vehicles[selectedRide.value].id ?? ""
       };
+      if(viaPoints.isNotEmpty) {
+        for(var i = 0; i < viaPoints.length; i++) {
+          var data = {
+            "via_point[$i][latitude]": (viaPoints[i]['lat'] ?? "").toString(),
+            "via_point[$i][longitude]": (viaPoints[i]['long'] ?? "").toString(),
+          };
+
+          body.addAll(data);
+        }
+      }
       isCalculationLoading.value = true;
       var result = await bookingService.getFare(body: body);
       isCalculationLoading.value = false;
@@ -220,6 +226,18 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
       if(when.value == 'later')'booking_date': date,
       if(when.value == 'later')'pickup_time': pickupTime.value
     };
+    if(viaPoints.isNotEmpty) {
+      for(var i = 0; i < viaPoints.length; i++) {
+        var data = {
+          "via_point[$i][latitude]": viaPoints[i]['lat'].toString(),
+          "via_point[$i][longitude]": viaPoints[i]['long'].toString(),
+          "via_location[$i]": viaPoints[i]['controller'].text.toString(),
+          "via_point_id[$i]": viaPoints[i]['id'].toString(),
+        };
+
+        body.addAll(data);
+      }
+    }
     Utils.showLoadingDialog();
     var result = await bookingService.createBooking(body: body);
     if(Get.isDialogOpen ?? false) Get.back();
@@ -244,6 +262,7 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
         bookingDate.value = '';
         pickupTime.value = '';
         when.value = 'now';
+        viaPoints.clear();
         update();
         Utils.toastOk("Booking placed successfully. You'll get notified when driver assigned to you. You can track booking in upcoming ride.");
       } else {
@@ -380,6 +399,7 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
       bookingDate.value = '';
       pickupTime.value = '';
       when.value = 'now';
+      viaPoints.clear();
       update();
     }
   }

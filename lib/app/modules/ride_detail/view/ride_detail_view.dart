@@ -238,6 +238,32 @@ class RideDetailView extends GetView<RideDetailController> {
                         ],
                       ),
                     ),
+                    if((controller.rideData?.viaLocation ?? []).isNotEmpty) ...[
+                      for(var location in (controller.rideData?.viaLocation ?? []))
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          padding: EdgeInsets.all(Get.width * 0.02),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: AppColors.textGrey.withValues(alpha: 0.1)
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(AppIcons.location, color: AppColors.textGrey, height: Get.width * 0.05),
+                              SizedBox(width: Get.width * 0.02),
+                              Expanded(child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Via", style: AppTextStyle.size12RegularAppBlackText),
+                                  SizedBox(height: 5),
+                                  Text(location ?? "", style: AppTextStyle.size14MediumAppBlackText),
+                                ],
+                              ))
+                            ],
+                          ),
+                        ),
+                    ],
                     SizedBox(height: 10),
                     Container(
                       padding: EdgeInsets.all(Get.width * 0.02),

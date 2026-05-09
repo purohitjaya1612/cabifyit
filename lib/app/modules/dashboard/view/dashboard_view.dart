@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cabifyit/app/data/model/vehicle_list_model.dart';
 import 'package:cabifyit/app/routes/app_pages.dart';
 import 'package:cabifyit/reusability/shared/dropdown.dart';
 import 'package:cabifyit/reusability/shared/ui_component_drawer.dart';
@@ -251,6 +252,86 @@ class DashBoardView extends GetView<DashBoardController> {
                     ),
                   ),
                 ),
+                SizedBox(height: Get.height * 0.01),
+                if(controller.pickupController.text.isNotEmpty) ...[
+                  for(var i = 0; i < controller.viaPoints.length; i++)
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: controller.viaPoints[i]['controller'],
+                              style: AppTextStyle.size14RegularAppBlackText.copyWith(color: AppColors.appPrimaryColor),
+                              onTap: () async {
+                                var result = await Get.toNamed(Routes.LOCATION, arguments: [false]);
+                                FocusScope.of(Get.context!).unfocus();
+                                if(result != null) {
+                                  controller.viaPoints[i]['controller'].text = result[0];
+                                  controller.viaPoints[i]['lat'] = result[1].toString();
+                                  controller.viaPoints[i]['long'] = result[2].toString();
+                                  controller.viaPoints[i]['id'] = result[3].toString();
+                                  controller.update();
+                                  controller.calculateFare();
+                                }
+                              },
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                hintText: "Select location",
+                                hintStyle: AppTextStyle.size14RegularAppBlackText.copyWith(color: AppColors.appPrimaryColor.withValues(alpha: 0.5)),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: Get.width * 0.05,
+                                  vertical: 5,
+                                ),
+                                filled: true,
+                                fillColor: AppColors.lightGrey,
+                                border: InputBorder.none,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide(color: AppColors.appPrimaryColor, width: 1.5),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                  borderSide: BorderSide(color: AppColors.red),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: Get.width * 0.01),
+                          if(controller.viaPoints.length > 1)GestureDetector(onTap: () {
+                            var temp = controller.viaPoints[0];
+                            controller.viaPoints[0] = controller.viaPoints[1];
+                            controller.viaPoints[1] = temp;
+                            controller.update();
+                            controller.calculateFare();
+                          },child: Icon(Icons.swap_vert_circle_outlined, color: AppColors.appPrimaryColor)),
+                          if(controller.viaPoints.length > 1)SizedBox(width: Get.width * 0.01),
+                          GestureDetector(onTap: () {
+                            controller.viaPoints.removeAt(i);
+                            controller.update();
+                            controller.calculateFare();
+                          },child: Icon(Icons.remove_circle_outline, color: AppColors.red))
+                        ],
+                      ),
+                    ),
+                  if(controller.viaPoints.length < 2)Align(
+                      alignment: Alignment.bottomRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.viaPoints.add({
+                            'controller': TextEditingController(),
+                            'lat': '',
+                            'long': '',
+                            'id': '',
+                          });
+                          controller.update();
+                        },
+                          child: Text("+ via", textAlign: TextAlign.end, style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor))))
+                ],
                 SizedBox(height: Get.height * 0.015),
                 TextFormField(
                   controller: controller.destinationController,
@@ -413,6 +494,10 @@ class DashBoardView extends GetView<DashBoardController> {
                     );
                   },),
                 ),
+                SizedBox(height: Get.height * 0.01),
+                if((controller.vehicles[controller.selectedRide.value].attributes ?? []).isNotEmpty)Align(alignment: Alignment.centerRight,child: GestureDetector(onTap: () {
+                  commonBottomSheet(showAttributesBottomSheet(controller.vehicles[controller.selectedRide.value].attributes ?? []));
+                },child: Text("See attributes", style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor)))),
                 SizedBox(height: Get.height * 0.02),
                 Obx(() =>
                 (controller.isCalculationLoading.value || (controller.fareKm.value.isNotEmpty && controller.farePrice.value.isNotEmpty) ?
@@ -447,6 +532,14 @@ class DashBoardView extends GetView<DashBoardController> {
                         if(controller.pickupController.text.isEmpty) {
                           Utils.toastWarning("Please Select Pickup Location");
                           return;
+                        }
+                        if(controller.viaPoints.isNotEmpty) {
+                          for(var via in controller.viaPoints) {
+                            if(via['id'].isEmpty) {
+                              Utils.toastWarning("Please Select Via Location");
+                              return;
+                            }
+                          }
                         }
                         if(controller.destinationController.text.isEmpty) {
                           Utils.toastWarning("Please Select Destination Location");
@@ -533,6 +626,25 @@ class DashBoardView extends GetView<DashBoardController> {
                   ],
                 ),
               ),
+              if((controller.currentBooking?.viaLocation ?? []).isNotEmpty) ...[
+                for(var location in (controller.currentBooking?.viaLocation ?? []))
+                  Container(
+                    margin: EdgeInsets.only(top: 5),
+                    padding: EdgeInsets.all(Get.width * 0.02),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.textGrey.withValues(alpha: 0.1)
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(AppIcons.location, color: AppColors.textGrey, height: Get.width * 0.05),
+                        SizedBox(width: Get.width * 0.02),
+                        Expanded(child: Text(location ?? "", style: AppTextStyle.size14MediumAppBlackText))
+                      ],
+                    ),
+                  ),
+              ],
               SizedBox(height: 2),
               Container(
                 padding: EdgeInsets.all(Get.width * 0.02),
@@ -1058,4 +1170,76 @@ class DashBoardView extends GetView<DashBoardController> {
     );
   }
 
+  Widget showAttributesBottomSheet(List<Attributes> attributes) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: Get.width * 0.05, vertical: 20),
+      decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Attributes", style: AppTextStyle.size16MediumAppBlackText.copyWith(fontSize: 20)),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Container(
+                  padding: EdgeInsets.all(Get.width * 0.02),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.lightGrey
+                  ),
+                  child: Icon(Icons.close, size: 18),
+                ),
+              )
+            ],
+          ),
+          SizedBox(height: 20),
+          if (attributes.isEmpty)
+            Text("No attributes found", style: AppTextStyle.size14RegularAppBlackText)
+          else
+            ...attributes.map((attr) {
+              bool isAllowed = attr.allowed == "true";
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: [
+                    Icon(
+                      isAllowed ? Icons.check_circle : Icons.cancel,
+                      color: isAllowed ? AppColors.green : AppColors.red,
+                      size: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        (attr.name ?? "").replaceAll("_", " ").split(" ")
+                            .map(
+                              (word) => word.isNotEmpty
+                              ? "${word[0].toUpperCase()}${word.substring(1).toLowerCase()}"
+                              : "",
+                        )
+                            .join(" "),
+                        style: isAllowed
+                            ? AppTextStyle.size16MediumAppBlackText
+                            : AppTextStyle.size16MediumAppBlackText.copyWith(
+                          decoration: TextDecoration.lineThrough,
+                          color: AppColors.textGrey,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          SizedBox(height: 15),
+        ],
+      ),
+    );
+  }
 }

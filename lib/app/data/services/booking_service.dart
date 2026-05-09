@@ -32,7 +32,7 @@ class BookingService {
     var token = Utils().getToken() ?? "";
 
     var url = ApiUrlList.calculatePrice;
-    var result = await networkHandler.post(url, client, token, model: body);
+    var result = await networkHandler.postMultiPartData(url, client, token, model: body);
 
     if(result != null) {
       return jsonDecode(result);
@@ -46,7 +46,7 @@ class BookingService {
     var token = Utils().getToken() ?? "";
 
     var url = ApiUrlList.placeRide;
-    var result = await networkHandler.post(url, client, token, model: body);
+    var result = await networkHandler.postMultiPartData(url, client, token, model: body);
 
     if(result != null) {
       return jsonDecode(result);

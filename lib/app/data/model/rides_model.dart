@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cabifyit/app/data/model/current_ride_model.dart';
 
 class RidesModel {
@@ -65,6 +67,7 @@ class RideData {
   String? cancelledBy;
   String? driverDropoffTime;
   String? driverPickupTime;
+  List viaLocation;
   DriverDetail? driverDetail;
   List<RatingDetail>? ratingDetail;
 
@@ -89,6 +92,7 @@ class RideData {
     required this.note,
     required this.destinationLocation,
     required this.otp,
+    required this.viaLocation,
     this.cancelReason,
     this.waitingTime,
     this.waitingAmount,
@@ -127,6 +131,11 @@ class RideData {
       cancelledBy: json['cancelled_by'],
       driverDropoffTime: json['driver_dropoff_time'],
       driverPickupTime: json['driver_pickup_time'],
+      viaLocation: json['via_location'] != null && json['via_location'].toString() != "null" &&
+          json['via_location'].toString().isNotEmpty
+          ? List<String>.from(
+        jsonDecode(json['via_location'] ?? '[]'),
+      ): [],
       driverDetail: json['driver_detail'] != null ? DriverDetail.fromJson(json['driver_detail']) : null,
       ratingDetail: (json['rating_detail'] as List<dynamic>? ?? [])
           .map((e) => RatingDetail.fromJson(e))

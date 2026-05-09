@@ -40,6 +40,7 @@ class VehicleData {
   String? baseFareSystemStatus;
   String? mileageSystem;
   bool isSelected;
+  List<Attributes>? attributes;
 
   VehicleData({
     this.id,
@@ -62,9 +63,13 @@ class VehicleData {
     this.baseFareSystemStatus,
     this.mileageSystem,
     this.isSelected = false,
+    this.attributes,
   });
 
   factory VehicleData.fromJson(Map<String, dynamic> json) {
+    List dataList = json['attributes'] ?? [];
+    List<Attributes> attributes =
+    dataList.map((e) => Attributes.fromJson(e)).toList();
     return VehicleData(
       id: (json['id'] ?? "").toString(),
       vehicleTypeName: json['vehicle_type_name'] ?? "",
@@ -93,6 +98,18 @@ class VehicleData {
       baseFareSystemStatus: json['base_fare_system_status'] ?? "",
       mileageSystem: json['mileage_system'] ?? "",
       isSelected: false,
+      attributes: attributes
     );
+  }
+}
+
+class Attributes {
+  String? name;
+  String? allowed;
+
+  Attributes({this.name, this.allowed});
+
+  factory Attributes.fromJson(Map<String, dynamic> json) {
+    return Attributes(name: json['name'] ?? "", allowed: (json['allowed'] ?? false).toString());
   }
 }

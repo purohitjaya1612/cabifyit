@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class CurrentBookingResponse {
   int success;
   CurrentBooking? currentBooking;
@@ -33,6 +35,7 @@ class CurrentBooking {
   String offeredAmount;
   String note;
   String bookingAmount;
+  List viaLocation;
   DriverDetail? driverDetail;
   VehicleDetail? vehicleDetail;
 
@@ -52,6 +55,7 @@ class CurrentBooking {
     required this.offeredAmount,
     required this.bookingAmount,
     required this.note,
+    required this.viaLocation,
     this.driverDetail,
     this.vehicleDetail,
   });
@@ -73,6 +77,11 @@ class CurrentBooking {
       offeredAmount: json['offered_amount'] ?? '0',
       bookingAmount: json['booking_amount'] ?? '0',
       note: json['note'] ?? '',
+      viaLocation: json['via_location'] != null && json['via_location'].toString() != "null" &&
+          json['via_location'].toString().isNotEmpty
+          ? List<String>.from(
+        jsonDecode(json['via_location'] ?? '[]'),
+      ): [],
       driverDetail: json['driver_detail'] != null
           ? DriverDetail.fromJson(json['driver_detail'])
           : null,

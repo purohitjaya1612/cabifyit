@@ -54,6 +54,10 @@ class RideBidController extends GetxController {
       if(data != null && data['status'] == 'accept_ride') {
         cancelRide(goBack: true, isAccepted: true);
       }
+
+      if(data['status'] == 'cancelled' && data['booking']['id'] == bookingId.value) {
+        cancelRide(goBack: true, isAccepted: true);
+      }
     },);
 
     SocketService().listenEvent("place-bid-event", (data) {
