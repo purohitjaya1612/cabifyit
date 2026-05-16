@@ -32,4 +32,5 @@ class AppIcons {
   static String intercity = '${base}intercity.png';
   static String star = '${base}star.png';
   static String currentPosition = '${base}current_position.png';
+  static String resetPassword = '${base}reset_password.png';
 }

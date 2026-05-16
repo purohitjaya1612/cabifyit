@@ -51,7 +51,7 @@ abstract class Routes {
   static const MESSAGE = _Paths.MESSAGE;
   static const FORGOTPIN = _Paths.FORGOTPIN;
   static const RESETPIN = _Paths.RESETPIN;
-  static const CHANGEPIN = _Paths.CHANGEPIN;
+  static const CHANGEPASSWORD = _Paths.CHANGEPASSWORD;
   static const SAFETY = _Paths.SAFETY;
 }
 
@@ -105,6 +105,6 @@ abstract class _Paths {
   static const MESSAGE = '/message';
   static const FORGOTPIN = '/forgot-pin';
   static const RESETPIN = '/reset-pin';
-  static const CHANGEPIN = '/change-pin';
+  static const CHANGEPASSWORD = '/change-password';
   static const SAFETY = '/safety';
 }

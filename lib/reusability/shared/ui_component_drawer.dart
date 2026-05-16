@@ -128,6 +128,10 @@ class CommonDrawer extends StatelessWidget {
                 Get.back();
                 Get.toNamed(Routes.FAQ);
               }),
+              drawerItem(title: "Change Password", image: AppIcons.resetPassword, onTap: () {
+                Get.back();
+                Get.toNamed(Routes.CHANGEPASSWORD);
+              }),
               SizedBox(height: Get.height * 0.01),
               Divider(color: AppColors.lightBlue, thickness: 2),
               SizedBox(height: Get.height * 0.01),

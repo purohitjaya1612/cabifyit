@@ -76,4 +76,30 @@ class AuthService {
       return null;
     }
   }
+
+  verifyPassword({client, body}) async {
+    client ??= http.Client();
+
+    var url = ApiUrlList.verifyPasswordApi;
+    var result = await networkHandler.postWithoutToken(url, client, model: body);
+
+    if(result != null) {
+      return jsonDecode(result);
+    } else {
+      return null;
+    }
+  }
+
+  changePassword({client, body}) async {
+    client ??= http.Client();
+
+    var url = ApiUrlList.changePasswordApi;
+    var result = await networkHandler.postWithoutToken(url, client, model: body);
+
+    if(result != null) {
+      return jsonDecode(result);
+    } else {
+      return null;
+    }
+  }
 }

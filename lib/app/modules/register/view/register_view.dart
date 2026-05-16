@@ -90,6 +90,15 @@ class RegisterView extends GetView<RegisterController> {
                    ),
                    TextFieldTheme.buildTextFiled(hintText: "Email", controller: controller.emailController),
                    SizedBox(height: Get.height * 0.02),
+                   TextFieldTheme.buildTextFiled(hintText: "Password", controller: controller.passwordController, validator: (value) {
+                     if((value ?? "").trim().isEmpty) {
+                       return "Please Enter Password";
+                     } else if((value ?? '').length < 6) {
+                       return "Password must be 6 character long";
+                     }
+                     return null;
+                   },),
+                   SizedBox(height: Get.height * 0.02),
                    TextFieldTheme.buildTextFiled(hintText: "Company Id", controller: controller.tenantController, validator: (value) {
                      if((value ?? "").trim().isEmpty) {
                        return "Please Enter Company Id";

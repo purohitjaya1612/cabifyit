@@ -1,3 +1,5 @@
+import 'package:cabifyit/app/modules/change_password/binding/change_password_binding.dart';
+import 'package:cabifyit/app/modules/change_password/view/change_password_view.dart';
 import 'package:cabifyit/app/modules/content/binding/content_binding.dart';
 import 'package:cabifyit/app/modules/content/view/content_view.dart';
 import 'package:cabifyit/app/modules/driver_location/binding/driver_location_binding.dart';
@@ -178,12 +180,12 @@ class AppPages {
     //     binding: ResetPinBinding(),
     //     transition: Transition.downToUp
     // ),
-    // GetPage(
-    //     name: _Paths.CHANGEPIN,
-    //     page: () => ChangePinView(),
-    //     binding: ChangePinBinding(),
-    //     transition: Transition.downToUp
-    // ),
+    GetPage(
+        name: _Paths.CHANGEPASSWORD,
+        page: () => ChangePasswordView(),
+        binding: ChangePasswordBinding(),
+        transition: Transition.downToUp
+    ),
     GetPage(
         name: _Paths.SAFETY,
         page: () => SafetyView(),

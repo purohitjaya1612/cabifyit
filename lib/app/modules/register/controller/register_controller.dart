@@ -11,6 +11,7 @@ class RegisterController extends GetxController {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController tenantController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   var countryCode = "+92".obs;
   var deviceToken = "".obs;
   var firebaseToken = "".obs;
@@ -50,7 +51,8 @@ class RegisterController extends GetxController {
       "name": nameController.text,
       "email": emailController.text,
       "phone": phoneNumberController.text.trim(),
-      "country_code": countryCode.value
+      "country_code": countryCode.value,
+      'password': passwordController.text.trim()
     };
     var result = await AuthService().register(body: body, tenant: tenantController.text.trim());
     if(Get.isDialogOpen ?? false) Get.back();

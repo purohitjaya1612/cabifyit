@@ -14,7 +14,7 @@ class VerifyOtpController extends GetxController {
   var firebaseToken = "".obs;
   var deviceToken = "".obs;
   var phone = '';
-  var email = '';
+  var email = ''.obs;
   var countryCode = '';
   late Timer appStateTimer;
   late Timer messageTimer;
@@ -35,7 +35,7 @@ class VerifyOtpController extends GetxController {
       phone = args.first;
       countryCode = args[1];
       if (args.length > 2) {
-        email = args[2];
+        email.value = args[2];
       }
     }
   }
@@ -62,9 +62,32 @@ class VerifyOtpController extends GetxController {
       "phone": phone,
       "country_code": countryCode,
       "otp": otpController.text,
-      if(email.isNotEmpty) "email": email
+      if(email.isNotEmpty) "email": email.value
     };
     var result = await AuthService().verifyOtp(body: body);
+    if(Get.isDialogOpen ?? false) Get.back();
+    if(result != null) {
+      Utils().setBox("token", result['token'] ?? "");
+      Utils().setBox("userId", (result['user']['id'] ?? "").toString());
+      Utils().setBox("userEmail", result['user']['email'] ?? "");
+      Utils().setBox("userPhone", result['user']['phone_no'] ?? "");
+      Utils().setBox("userName", result['user']['name'] ?? "");
+      Utils().setBox("userImage", result['user']['profile'] ?? "");
+      Utils().setBox("userCountryCode", result['user']['country_code'] ?? "");
+      Utils().setLogin(true);
+      Get.offNamedUntil(Routes.DASHBOARD, (route) => false);
+    }
+  }
+
+
+  verifyPassword() async {
+    Utils.showLoadingDialog();
+    var body = {
+      "phone": phone,
+      "country_code": countryCode,
+      "password": otpController.text
+    };
+    var result = await AuthService().verifyPassword(body: body);
     if(Get.isDialogOpen ?? false) Get.back();
     if(result != null) {
       Utils().setBox("token", result['token'] ?? "");
@@ -90,8 +113,17 @@ class VerifyOtpController extends GetxController {
   }
 
   validateOtp() {
-    if(otpKey.currentState!.validate()) {
+    if(formKey.currentState!.validate()) {
       verifyPin();
+    } else {
+      otpAutoValidate.value = AutovalidateMode.always;
+    }
+    update();
+  }
+
+  validatePassword() {
+    if(formKey.currentState!.validate()) {
+      verifyPassword();
     } else {
       otpAutoValidate.value = AutovalidateMode.always;
     }

@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
+import '../../../../reusability/shared/textfied.dart';
 import '../../../../reusability/shared/widget.dart';
 import '../../../../reusability/theme/app_colors.dart';
 import '../../../../reusability/theme/app_textstyle.dart';
@@ -41,11 +42,16 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                    SizedBox(
                      height: Get.height * 0.015,
                    ),
-                   Text("Please enter the security pin", style: AppTextStyle.size12MediumAppBlackText.copyWith(fontWeight: FontWeight.w400, fontSize: 20)),
+                   Obx(() => Text(controller.email.isEmpty?"Please enter password":"Please enter the security pin", style: AppTextStyle.size12MediumAppBlackText.copyWith(fontWeight: FontWeight.w400, fontSize: 20))),
                    SizedBox(
                      height: Get.height * 0.02,
                    ),
-                   Pinput(
+                   Obx(() => controller.email.isEmpty?TextFieldTheme.buildTextFiled(hintText: "Password", controller: controller.otpController, validator: (value) {
+                     if((value ?? "").trim().isEmpty) {
+                       return "Please Enter Password";
+                     }
+                     return null;
+                   },):Pinput(
                      useNativeKeyboard: true,
                      controller: controller.otpController,
                      length: 4,
@@ -100,7 +106,7 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                          shape: BoxShape.circle,
                          border: Border.all(color: AppColors.red),
                        ),
-                     ),),
+                     ),)),
                    const SizedBox(
                      height: 30,
                    ),
@@ -109,7 +115,11 @@ class VerifyOtpView extends GetView<VerifyOtpController> {
                      btnWidthRatio: 0.8,
                      onPress: () {
                        FocusScope.of(context).unfocus();
+                       if (controller.email.value.isEmpty) {
+                         controller.validatePassword();
+                       } else {
                          controller.verifyPin();
+                       }
                      },
                    ),
                    const SizedBox(

@@ -12,6 +12,8 @@ class ApiUrlList {
   static String registerApi = '${apiBaseUrl}register';
   static String verifyOtpApi = '${apiBaseUrl}verify-otp';
   static String deleteAccountApi = '${apiBaseUrl}delete-account';
+  static String verifyPasswordApi = '${apiBaseUrl}verify-password';
+  static String changePasswordApi = '${apiBaseUrl}change-password';
 
   ///Faq APIs
   static String faqApi = '${apiBaseUrl}faqs';

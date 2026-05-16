@@ -140,78 +140,78 @@ class DashBoardView extends GetView<DashBoardController> {
             autovalidateMode: controller.autoValidate.value,
             child: Column(
               children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        controller.type.value = 'local';
-                        controller.selectedRide.value = -1;
-                        controller.fareKm.value = '';
-                        controller.farePrice.value = '';
-                        controller.update();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02, vertical: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: controller.type.value == 'local'?AppColors.appPrimaryColor.withValues(alpha: 0.05):AppColors.lightGrey,
-                          border: Border.all(color: controller.type.value == 'local'?AppColors.appPrimaryColor:AppColors.lightGrey)
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              height: Get.width * 0.08,
-                              width: Get.width * 0.08,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage(AppIcons.local)),
-                              ),
-                            ),
-                            SizedBox(width: Get.width * 0.02),
-                            Text("Local", style: AppTextStyle.size14RegularAppBlackText),
-                            SizedBox(width: Get.width * 0.01),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: Get.width * 0.03,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.type.value = 'intercity';
-                        controller.selectedRide.value = -1;
-                        controller.fareKm.value = '';
-                        controller.farePrice.value = '';
-                        controller.update();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02, vertical: 5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: controller.type.value != 'local'?AppColors.appPrimaryColor.withValues(alpha: 0.1):AppColors.lightGrey,
-                            border: Border.all(color: controller.type.value != 'local'?AppColors.appPrimaryColor:AppColors.lightGrey)
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              height: Get.width * 0.08,
-                              width: Get.width * 0.08,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage(AppIcons.intercity)),
-                              ),
-                            ),
-                            SizedBox(width: Get.width * 0.02),
-                            Text("Intercity", style: AppTextStyle.size14RegularAppBlackText),
-                            SizedBox(width: Get.width * 0.01),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: Get.height * 0.02),
+                // Row(
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () {
+                //         controller.type.value = 'local';
+                //         controller.selectedRide.value = -1;
+                //         controller.fareKm.value = '';
+                //         controller.farePrice.value = '';
+                //         controller.update();
+                //       },
+                //       child: Container(
+                //         padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02, vertical: 5),
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(10),
+                //           color: controller.type.value == 'local'?AppColors.appPrimaryColor.withValues(alpha: 0.05):AppColors.lightGrey,
+                //           border: Border.all(color: controller.type.value == 'local'?AppColors.appPrimaryColor:AppColors.lightGrey)
+                //         ),
+                //         child: Row(
+                //           mainAxisSize: MainAxisSize.min,
+                //           children: [
+                //             Container(
+                //               height: Get.width * 0.08,
+                //               width: Get.width * 0.08,
+                //               decoration: BoxDecoration(
+                //                 image: DecorationImage(image: AssetImage(AppIcons.local)),
+                //               ),
+                //             ),
+                //             SizedBox(width: Get.width * 0.02),
+                //             Text("Local", style: AppTextStyle.size14RegularAppBlackText),
+                //             SizedBox(width: Get.width * 0.01),
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       width: Get.width * 0.03,
+                //     ),
+                //     GestureDetector(
+                //       onTap: () {
+                //         controller.type.value = 'intercity';
+                //         controller.selectedRide.value = -1;
+                //         controller.fareKm.value = '';
+                //         controller.farePrice.value = '';
+                //         controller.update();
+                //       },
+                //       child: Container(
+                //         padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02, vertical: 5),
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(10),
+                //             color: controller.type.value != 'local'?AppColors.appPrimaryColor.withValues(alpha: 0.1):AppColors.lightGrey,
+                //             border: Border.all(color: controller.type.value != 'local'?AppColors.appPrimaryColor:AppColors.lightGrey)
+                //         ),
+                //         child: Row(
+                //           mainAxisSize: MainAxisSize.min,
+                //           children: [
+                //             Container(
+                //               height: Get.width * 0.08,
+                //               width: Get.width * 0.08,
+                //               decoration: BoxDecoration(
+                //                 image: DecorationImage(image: AssetImage(AppIcons.intercity)),
+                //               ),
+                //             ),
+                //             SizedBox(width: Get.width * 0.02),
+                //             Text("Intercity", style: AppTextStyle.size14RegularAppBlackText),
+                //             SizedBox(width: Get.width * 0.01),
+                //           ],
+                //         ),
+                //       ),
+                //     )
+                //   ],
+                // ),
+                // SizedBox(height: Get.height * 0.02),
                 TextFormField(
                   controller: controller.pickupController,
                   style: AppTextStyle.size14RegularAppBlackText.copyWith(color: AppColors.appPrimaryColor),
@@ -495,7 +495,7 @@ class DashBoardView extends GetView<DashBoardController> {
                   },),
                 ),
                 SizedBox(height: Get.height * 0.01),
-                if((controller.vehicles[controller.selectedRide.value].attributes ?? []).isNotEmpty)Align(alignment: Alignment.centerRight,child: GestureDetector(onTap: () {
+                if(controller.selectedRide.value != -1 && (controller.vehicles[controller.selectedRide.value].attributes ?? []).isNotEmpty)Align(alignment: Alignment.centerRight,child: GestureDetector(onTap: () {
                   commonBottomSheet(showAttributesBottomSheet(controller.vehicles[controller.selectedRide.value].attributes ?? []));
                 },child: Text("See attributes", style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor)))),
                 SizedBox(height: Get.height * 0.02),
@@ -522,6 +522,17 @@ class DashBoardView extends GetView<DashBoardController> {
                   ),
                 ):Container())),
                 SizedBox(height: Get.height * 0.02),
+
+                if(Utils().getBox("company_booking_system") == "auto_dispatch")TextFieldTheme.buildTextFiled(
+                    hintText: "Note for driver..",
+                    controller: controller.noteController,
+                    borderColor: AppColors.grey,
+                    verticalPadding: 10,
+                    radius: 10,
+                    hintStyle: AppTextStyle.size14RegularAppBlackText.copyWith(color: AppColors.textGrey),
+                    maxLine: 6
+                ),
+                if(Utils().getBox("company_booking_system") == "auto_dispatch")SizedBox(height: Get.height * 0.01),
                 AppWidgets.buildButton(
                     title: "Next",
                     btnWidthRatio: 0.8,
