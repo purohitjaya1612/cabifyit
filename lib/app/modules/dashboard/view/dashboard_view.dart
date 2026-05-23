@@ -836,63 +836,63 @@ class DashBoardView extends GetView<DashBoardController> {
                 ],
               ),
               SizedBox(height: Get.height * 0.01),
-              if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")Text("OTP", style: AppTextStyle.size16MediumAppBlackText),
-              if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")SizedBox(height: Get.height * 0.01),
-              if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: Get.width * 0.1,
-                    width: Get.width * 0.1,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
-                    ),
-                    child: Text(controller.currentBooking!.otp[0], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
-                  ),
-                  SizedBox(width: Get.width * 0.02),
-                  Container(
-                    height: Get.width * 0.1,
-                    width: Get.width * 0.1,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
-                    ),
-                    child: Text(controller.currentBooking!.otp[1], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
-                  ),
-                  SizedBox(width: Get.width * 0.02),
-                  Container(
-                    height: Get.width * 0.1,
-                    width: Get.width * 0.1,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
-                    ),
-                    child: Text(controller.currentBooking!.otp[2], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
-                  ),
-                  SizedBox(width: Get.width * 0.02),
-                  Container(
-                    height: Get.width * 0.1,
-                    width: Get.width * 0.1,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
-                    ),
-                    child: Text(controller.currentBooking!.otp[3], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
-                  ),
-                ],
-              ),
-              if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")SizedBox(height: Get.height * 0.01),
-              if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")Row(
-                children: [
-                  Icon(Icons.error, size: 16, color: AppColors.appPrimaryColor.withValues(alpha: 0.5)),
-                  Expanded(child: Text(" Do not share OTP with driver before pickup on call or message.", style: AppTextStyle.size10RegularAppBlackText.copyWith(fontSize: 9)))
-                ],
-              ),
+              // if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")Text("OTP", style: AppTextStyle.size16MediumAppBlackText),
+              // if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")SizedBox(height: Get.height * 0.01),
+              // if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       height: Get.width * 0.1,
+              //       width: Get.width * 0.1,
+              //       alignment: Alignment.center,
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(5),
+              //         color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
+              //       ),
+              //       child: Text(controller.currentBooking!.otp[0], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
+              //     ),
+              //     SizedBox(width: Get.width * 0.02),
+              //     Container(
+              //       height: Get.width * 0.1,
+              //       width: Get.width * 0.1,
+              //       alignment: Alignment.center,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(5),
+              //           color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
+              //       ),
+              //       child: Text(controller.currentBooking!.otp[1], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
+              //     ),
+              //     SizedBox(width: Get.width * 0.02),
+              //     Container(
+              //       height: Get.width * 0.1,
+              //       width: Get.width * 0.1,
+              //       alignment: Alignment.center,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(5),
+              //           color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
+              //       ),
+              //       child: Text(controller.currentBooking!.otp[2], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
+              //     ),
+              //     SizedBox(width: Get.width * 0.02),
+              //     Container(
+              //       height: Get.width * 0.1,
+              //       width: Get.width * 0.1,
+              //       alignment: Alignment.center,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(5),
+              //           color: AppColors.appPrimaryColor.withValues(alpha: 0.1)
+              //       ),
+              //       child: Text(controller.currentBooking!.otp[3], style: AppTextStyle.size14MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor),),
+              //     ),
+              //   ],
+              // ),
+              // if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")SizedBox(height: Get.height * 0.01),
+              // if(controller.currentBooking?.bookingStatus == "ongoing" || controller.currentBooking?.bookingStatus == "arrived")Row(
+              //   children: [
+              //     Icon(Icons.error, size: 16, color: AppColors.appPrimaryColor.withValues(alpha: 0.5)),
+              //     Expanded(child: Text(" Do not share OTP with driver before pickup on call or message.", style: AppTextStyle.size10RegularAppBlackText.copyWith(fontSize: 9)))
+              //   ],
+              // ),
               SizedBox(height: Get.height * 0.01),
               Row(
                 children: [

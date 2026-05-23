@@ -65,7 +65,7 @@ class RideDetailView extends GetView<RideDetailController> {
                               children: [
                                 Text("Date", style: AppTextStyle.size12RegularAppBlackText.copyWith(color: AppColors.textGrey)),
                                 SizedBox(height: 5),
-                                Text(DateFormat('dd/MM/yyyy').format(DateTime.parse(controller.rideData!.bookingDate)).toString(), style: AppTextStyle.size14MediumAppBlackText),
+                                Text("${DateFormat('dd/MM/yyyy').format(DateTime.parse(controller.rideData!.bookingDate)).toString()} ${convertTo12Hour(controller.rideData!.pickupTime)}", style: AppTextStyle.size14MediumAppBlackText),
                               ],
                             ),
                           ),

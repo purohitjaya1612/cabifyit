@@ -456,3 +456,32 @@ Future<void> commonBottomSheet(child, {double? initialValue, double? minValue, d
 getImage(String image) {
   return "${ApiUrlList.baseUrl}$image";
 }
+
+String convertTo12Hour(String time) {
+  if (time.trim().isEmpty) {
+    return '';
+  }
+
+  try {
+    // If already in 12-hour format (e.g. 06:00 PM)
+    if (time.toUpperCase().contains('AM') ||
+        time.toUpperCase().contains('PM')) {
+      return time;
+    }
+
+    DateTime dateTime;
+
+    // Handle HH:mm:ss
+    if (time.split(':').length == 3) {
+      dateTime = DateFormat("HH:mm:ss").parse(time);
+    }
+    // Handle HH:mm
+    else {
+      dateTime = DateFormat("HH:mm").parse(time);
+    }
+
+    return DateFormat("hh:mm a").format(dateTime);
+  } catch (e) {
+    return time; // fallback if invalid format
+  }
+}
