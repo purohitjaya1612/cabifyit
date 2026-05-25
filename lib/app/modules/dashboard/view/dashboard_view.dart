@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cabifyit/app/data/model/vehicle_list_model.dart';
@@ -601,6 +602,13 @@ class DashBoardView extends GetView<DashBoardController> {
   Widget currentRideWidget() {
     return GetBuilder<DashBoardController>(
       builder: (context) {
+        var waitingTimeActive = false;
+        var waitingTime = controller.currentBooking?.waitingDetails ?? [];
+        if(waitingTime.isNotEmpty) {
+          if((waitingTime.last.endTime ?? "").isEmpty) {
+            waitingTimeActive = true;
+          }
+        }
         return Container(
           padding: EdgeInsets.all(Get.width * 0.05),
           decoration: BoxDecoration(
@@ -672,6 +680,39 @@ class DashBoardView extends GetView<DashBoardController> {
                   ],
                 ),
               ),
+              if (waitingTimeActive) ...[
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: Get.width * 0.04, vertical: 12),
+                  margin: EdgeInsets.only(top: 15),
+                  decoration: BoxDecoration(
+                    color: AppColors.green.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: AppColors.green.withValues(alpha: 0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          _BlinkingDot(),
+                          SizedBox(width: 8),
+                          Text(
+                            "Waiting Time Active",
+                            style: AppTextStyle.size14MediumAppBlackText.copyWith(
+                              color: AppColors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                      RunningTimer(startTime: waitingTime.last.startTime ?? "")
+                    ],
+                  ),
+                ),
+              ],
               SizedBox(height: Get.height * 0.02),
               Divider(),
               SizedBox(height: Get.height * 0.02),
@@ -1250,6 +1291,126 @@ class DashBoardView extends GetView<DashBoardController> {
             }).toList(),
           SizedBox(height: 15),
         ],
+      ),
+    );
+  }
+}
+
+class _BlinkingDot extends StatefulWidget {
+  @override
+  __BlinkingDotState createState() => __BlinkingDotState();
+}
+
+class __BlinkingDotState extends State<_BlinkingDot> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _animationController,
+      child: Container(
+        width: 8,
+        height: 8,
+        decoration: BoxDecoration(
+            color: AppColors.green,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.green.withValues(alpha: 0.5),
+                blurRadius: 4,
+                spreadRadius: 2,
+              )
+            ]
+        ),
+      ),
+    );
+  }
+}
+
+class RunningTimer extends StatefulWidget {
+  final String startTime; // Example: "15:25" or "03:25 PM"
+
+  const RunningTimer({
+    super.key,
+    required this.startTime,
+  });
+
+  @override
+  State<RunningTimer> createState() => _RunningTimerState();
+}
+
+class _RunningTimerState extends State<RunningTimer> {
+  Timer? _timer;
+  String timerText = "00:00";
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    updateTimer();
+
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+          (_) => updateTimer(),
+    );
+  }
+
+  void updateTimer() {
+    DateTime now = DateTime.now();
+
+    // Parse start time
+    DateTime startDateTime = DateTime.parse("${widget.startTime}Z").toLocal();
+
+    Duration difference = now.difference(startDateTime);
+
+    if (difference.isNegative) {
+      setState(() {
+        timerText = "00:00";
+      });
+      return;
+    }
+
+    int minutes = difference.inMinutes;
+    int seconds = difference.inSeconds % 60;
+
+    setState(() {
+      timerText =
+      '${minutes.toString().padLeft(2, '0')}:'
+          '${seconds.toString().padLeft(2, '0')}';
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      timerText,
+      style: const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

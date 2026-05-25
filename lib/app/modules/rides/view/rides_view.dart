@@ -213,7 +213,7 @@ class RidesView extends GetView<RidesController> {
                                     child: Text("Ride ID: ${ride.bookingId}", style: AppTextStyle.size12MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor)),
                                   ),
                                   Spacer(),
-                                  Text("${Utils().getCurrencySymbol()}${((double.tryParse(ride.bookingAmount) ?? 0) + (double.tryParse(ride.waitingAmount ?? "0") ?? 0))}", style: AppTextStyle.size16MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor)),
+                                  Text("${Utils().getCurrencySymbol()}${(double.tryParse(ride.bookingAmount) ?? 0).toStringAsFixed(2)}", style: AppTextStyle.size16MediumAppBlackText.copyWith(color: AppColors.appPrimaryColor)),
                                 ],
                               ),
                               SizedBox(height: 10),

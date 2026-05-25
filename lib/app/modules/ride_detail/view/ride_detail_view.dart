@@ -55,7 +55,7 @@ class RideDetailView extends GetView<RideDetailController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("${Utils().getCurrencySymbol()}${controller.rideData?.bookingAmount ?? '0'}", style: AppTextStyle.size22MediumAppBlackText),
+                    Text("${Utils().getCurrencySymbol()}${(double.tryParse(controller.rideData?.bookingAmount ?? "0") ?? 0).toStringAsFixed(2)}", style: AppTextStyle.size22MediumAppBlackText),
                     SizedBox(height: 10),
                     Row(
                         children: [
@@ -330,7 +330,7 @@ class RideDetailView extends GetView<RideDetailController> {
                     Row(
                         children: [
                           Expanded(child: Text("Fares", style: AppTextStyle.size12RegularAppBlackText.copyWith(color: AppColors.textGrey))),
-                          Text("${Utils().getCurrencySymbol()}${controller.rideData?.bookingAmount ?? "0"}", style: AppTextStyle.size12RegularAppBlackText.copyWith(color: AppColors.textGrey)),
+                          Text("${Utils().getCurrencySymbol()}${controller.rideData?.offeredAmount ?? "0"}", style: AppTextStyle.size12RegularAppBlackText.copyWith(color: AppColors.textGrey)),
                         ]
                     ),
                     SizedBox(height: 10),
@@ -353,7 +353,7 @@ class RideDetailView extends GetView<RideDetailController> {
                     Row(
                         children: [
                           Expanded(child: Text("Total Fare", style: AppTextStyle.size14MediumAppBlackText)),
-                          Text("${Utils().getCurrencySymbol()}${((double.tryParse(controller.rideData?.bookingAmount ?? "0") ?? 0) + (double.tryParse(controller.rideData?.waitingAmount ?? "0") ?? 0))}", style: AppTextStyle.size14MediumAppBlackText),
+                          Text("${Utils().getCurrencySymbol()}${(double.tryParse(controller.rideData?.bookingAmount ?? "0") ?? 0)}", style: AppTextStyle.size14MediumAppBlackText),
                         ]
                     ),
                   ],

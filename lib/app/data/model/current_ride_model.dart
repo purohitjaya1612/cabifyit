@@ -38,6 +38,7 @@ class CurrentBooking {
   List viaLocation;
   DriverDetail? driverDetail;
   VehicleDetail? vehicleDetail;
+  List<WaitingDetails>? waitingDetails;
 
   CurrentBooking({
     required this.id,
@@ -58,9 +59,12 @@ class CurrentBooking {
     required this.viaLocation,
     this.driverDetail,
     this.vehicleDetail,
+    this.waitingDetails,
   });
 
   factory CurrentBooking.fromJson(Map<String, dynamic> json) {
+    List waiting = json['waiting_detail'] ?? [];
+    List<WaitingDetails> waitingList = waiting.map((e) => WaitingDetails.fromJson(e)).toList();
     return CurrentBooking(
       id: json['id'],
       bookingId: json['booking_id'] ?? '',
@@ -88,6 +92,7 @@ class CurrentBooking {
       vehicleDetail: json['vehicle_detail'] != null
           ? VehicleDetail.fromJson(json['vehicle_detail'])
           : null,
+      waitingDetails: waitingList
     );
   }
 }
@@ -158,6 +163,22 @@ class VehicleDetail {
       minimumDistance: json['minimum_distance'] ?? '0',
       mileageSystem: json['mileage_system'] ?? '',
       vehicleImage: json['vehicle_image'] ?? '',
+    );
+  }
+}
+
+class WaitingDetails {
+  String? startTime;
+  String? endTime;
+  String? status;
+
+  WaitingDetails({this.startTime, this.endTime, this.status});
+
+  factory WaitingDetails.fromJson(Map<String, dynamic> json) {
+    return WaitingDetails(
+      startTime: json['start_time'] ?? "",
+      endTime: json['end_time'] ?? "",
+      status: json['status'] ?? "",
     );
   }
 }

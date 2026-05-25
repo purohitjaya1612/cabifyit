@@ -431,6 +431,9 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
   getSocketEvent() {
     SocketService().listenEvent("user-ride-status-event", (data) {
       print("Ride Updated");
+      if(currentBooking == null) {
+        getCurrentRide();
+      }
       if(currentBooking != null) {
         if(data['status'] == "ride_started") {
           currentBooking?.bookingStatus = 'started';
@@ -447,6 +450,10 @@ class DashBoardController extends GetxController with WidgetsBindingObserver {
         }
         update();
       }
+    },);
+
+    SocketService().listenEvent("waiting-time-event", (data) {
+      getCurrentRide();
     },);
   }
 

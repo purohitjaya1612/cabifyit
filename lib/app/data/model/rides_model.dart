@@ -62,6 +62,7 @@ class RideData {
   String destinationLocation;
   String otp;
   String? waitingAmount;
+  String? offeredAmount;
   String? waitingTime;
   String? cancelReason;
   String? cancelledBy;
@@ -96,6 +97,7 @@ class RideData {
     this.cancelReason,
     this.waitingTime,
     this.waitingAmount,
+    this.offeredAmount,
     this.cancelledBy,
     this.driverDropoffTime,
     this.driverPickupTime,
@@ -127,6 +129,7 @@ class RideData {
       otp: json['otp'] ?? '',
       cancelReason: json['cancel_reason'],
       waitingAmount: (json['waiting_amount'] ?? 0).toString(),
+      offeredAmount: (json['offered_amount'] ?? 0).toString(),
       waitingTime: (json['waiting_time'] ?? 0).toString(),
       cancelledBy: json['cancelled_by'],
       driverDropoffTime: json['driver_dropoff_time'],
